@@ -42,5 +42,5 @@ Each function uses the **AWS SDK for JavaScript (v3)**.
 
 Include a short video demonstration of the solution working end-to-end.
 
-## 📂 Project Structure
+
 
