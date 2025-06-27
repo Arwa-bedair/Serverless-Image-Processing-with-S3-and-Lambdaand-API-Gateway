@@ -41,6 +41,7 @@ Each function uses the **AWS SDK for JavaScript (v3)**.
 ## 🎥 Demo Video
 
 Include a short video demonstration of the solution working end-to-end.
+[Download demo video](./demo/project-demo.mkv)
 
 
 
