@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Image Resize App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 30px;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    .container {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: auto;
+    }
+
+    input[type="file"] {
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #status {
+      margin: 10px 0;
+      color: green;
+    }
+
+    .file-item {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: #f8f8f8;
+      border-left: 5px solid #007bff;
+      border-radius: 5px;
+    }
+
+    .file-name {
+      font-weight: bold;
+      display: inline-block;
+      margin-right: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Upload an Image to Resize</h2>
+    <input type="file" id="fileUpload" />
+    <button onclick="upload()">Upload</button>
+    <p id="status"></p>
+    <div id="results">
+      <h3>Processed Images</h3>
+    </div>
+  </div>
+
+  <script>
+    async function upload() {
+      const fileInput = document.getElementById("fileUpload");
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("Please select an image to upload.");
+        return;
+      }
+
+      const filename = encodeURIComponent(file.name);
+
+      // Get signed upload URL
+      const apiUploadUrl = "https://bodhm4serh.execute-api.us-east-1.amazonaws.com/dev/upload-url?filename=" + filename;
+      const uploadRes = await fetch(apiUploadUrl);
+      const { url } = await uploadRes.json();
+
+      document.getElementById("status").innerText = "Uploading...";
+      await fetch(url, {
+        method: "PUT",
+        body: file,
+        headers: {
+          "Content-Type": file.type,
+        }
+      });
+
+      document.getElementById("status").innerText = "Uploaded successfully. Waiting for processing...";
+
+      setTimeout(() => addImageItem(file.name), 4000);
+    }
+
+    function addImageItem(filename) {
+      const results = document.getElementById("results");
+
+      const item = document.createElement("div");
+      item.className = "file-item";
+
+      const name = document.createElement("span");
+      name.className = "file-name";
+      name.innerText = filename;
+
+      const previewOriginalBtn = document.createElement("button");
+      previewOriginalBtn.innerText = "Preview Original";
+      previewOriginalBtn.onclick = async () => {
+        const res = await fetch(`https://bodhm4serh.execute-api.us-east-1.amazonaws.com/dev/original-url?filename=${filename}`);
+        const data = await res.json();
+        window.open(data.url, "_blank");
+      };
+
+      const previewResizedBtn = document.createElement("button");
+      previewResizedBtn.innerText = "Preview Resized";
+      previewResizedBtn.onclick = async () => {
+        const resizedName = "resized-" + filename;
+        const res = await fetch(`https://bodhm4serh.execute-api.us-east-1.amazonaws.com/dev/download-url?filename=${resizedName}`);
+        const data = await res.json();
+        window.open(data.url, "_blank");
+      };
+
+      item.appendChild(name);
+      item.appendChild(previewOriginalBtn);
+      item.appendChild(previewResizedBtn);
+      results.appendChild(item);
+
+      document.getElementById("status").innerText = "";
+    }
+  </script>
+</body>
+</html>
