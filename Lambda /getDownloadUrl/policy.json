@@ -1,0 +1,111 @@
+{
+  "partial": false,
+  "policies": [
+    {
+      "type": "inline",
+      "name": "S3DownloadAccessPolicy",
+      "document": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::YOUR_BUCKET_NAME/*"
+          }
+        ]
+      }
+    },
+    {
+      "type": "managed",
+      "name": "AWSLambdaBasicExecutionRole-5881c7e8-f84c-4ea8-903a-be485eb57b9d",
+      "arn": "arn:aws:iam::000000000000:policy/service-role/...",
+      "id": "ANPAUW4RAWU3LCXTRG5X3",
+      "document": {
+        "Version": "2012-10-17",
+        "Statement": [
+          {
+            "Effect": "Allow",
+            "Action": "logs:CreateLogGroup",
+            "Resource": "arn:aws:logs:us-east-1:000000000000:*"
+          },
+          {
+            "Effect": "Allow",
+            "Action": [
+              "logs:CreateLogStream",
+              "logs:PutLogEvents"
+            ],
+            "Resource": [
+              "arn:aws:logs:us-east-1:000000000000:log-group:/aws/lambda/YOUR_FUNCTION_NAME:*"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "resources": {
+    "s3": {
+      "service": {
+        "name": "Amazon S3",
+        "icon": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw"
+      },
+      "statements": [
+        {
+          "service": "s3",
+          "effect": "Allow",
+          "action": "s3:GetObject",
+          "resource": "arn:aws:s3:::YOUR_BUCKET_NAME/*",
+          "source": {
+            "policyName": "S3DownloadAccessPolicy",
+            "policyType": "inline",
+            "index": "0"
+          }
+        }
+      ]
+    },
+    "logs": {
+      "service": {
+        "name": "Amazon CloudWatch Logs",
+        "icon": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAAAAAAALAAAAAABAAEAAAICRAEAOw"
+      },
+      "statements": [
+        {
+          "service": "logs",
+          "effect": "Allow",
+          "action": "logs:CreateLogGroup",
+          "resource": "arn:aws:logs:us-east-1:000000000000:*",
+          "source": {
+            "policyName": "AWSLambdaBasicExecutionRole-5881c7e8-f84c-4ea8-903a-be485eb57b9d",
+            "policyType": "managed",
+            "index": "0"
+          }
+        },
+        {
+          "service": "logs",
+          "effect": "Allow",
+          "action": "logs:CreateLogStream",
+          "resource": "arn:aws:logs:us-east-1:000000000000:log-group:/aws/lambda/YOUR_FUNCTION_NAME:*",
+          "source": {
+            "policyName": "AWSLambdaBasicExecutionRole-5881c7e8-f84c-4ea8-903a-be485eb57b9d",
+            "policyType": "managed",
+            "index": "1"
+          }
+        },
+        {
+          "service": "logs",
+          "effect": "Allow",
+          "action": "logs:PutLogEvents",
+          "resource": "arn:aws:logs:us-east-1:000000000000:log-group:/aws/lambda/YOUR_FUNCTION_NAME:*",
+          "source": {
+            "policyName": "AWSLambdaBasicExecutionRole-5881c7e8-f84c-4ea8-903a-be485eb57b9d",
+            "policyType": "managed",
+            "index": "1"
+          }
+        }
+      ]
+    }
+  },
+  "roleName": "YOUR_FUNCTION_NAME-role-oaxt6qmm",
+  "trustedEntities": [
+    "lambda.amazonaws.com"
+  ]
+}
