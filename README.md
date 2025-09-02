@@ -38,10 +38,14 @@ Each function uses the **AWS SDK for JavaScript (v3)**.
 - `/download-url`: Generate signed preview URL for resized images.
 - `/original-url`: Generate signed preview URL for original images.
 
+## 📸 Demo
+![Demo GIF](demo/demo.gif)
+
 ## 🎥 Demo Video
 
 Include a short video demonstration of the solution working end-to-end.
 [Download demo video](./demo/demo.mkv)
+
 
 
 
