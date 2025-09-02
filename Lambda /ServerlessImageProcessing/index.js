@@ -45,7 +45,7 @@ export const handler = async (event, context) => {
     await S3.send(
       new PutObjectCommand({
         Bucket: DEST_BUCKET,
-        Key: srcKey,
+        Key: `resized-${srcKey}`,
         Body: outputBuffer,
         ContentType,
       })
