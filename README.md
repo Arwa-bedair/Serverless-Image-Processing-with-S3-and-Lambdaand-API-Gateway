@@ -1,4 +1,4 @@
-# 📷 Serverless Image Resizer
+# Serverless Image Resizer
 
 This project demonstrates a **fully serverless image processing solution** on AWS.
 
@@ -7,7 +7,7 @@ Users can:
 - Automatically generate a resized thumbnail.
 - Preview both original and resized images securely.
 
-## 🚀 Architecture Overview
+## Architecture Overview
 
 ![Architecture Diagram](architecture-diagram.png)
 
@@ -20,28 +20,28 @@ Users can:
   - `getDownloadUrl`: Returns pre-signed URLs to preview resized images.
   - `getOriginalImageUrl`: Returns pre-signed URLs to preview original images.
 
-## 💻 Frontend
+## Frontend
 
 A clean HTML page hosted on S3 to allow:
 - Uploading images.
 - Previewing processed results.
 
-## 🧩 Lambda Functions
+## Lambda Functions
 
 All Lambda functions are included in the `/lambdas` directory.
 
 Each function uses the **AWS SDK for JavaScript (v3)**.
 
-## 🌐 API Endpoints
+## API Endpoints
 
 - `/upload-url`: Generate signed upload URL.
 - `/download-url`: Generate signed preview URL for resized images.
 - `/original-url`: Generate signed preview URL for original images.
 
-## 📸 Demo
+## Demo
 ![Demo GIF](demo/demo.gif)
 
-## 🎥 Demo Video
+## Demo Video
 
 Include a short video demonstration of the solution working end-to-end.
 [Download demo video](./demo/demo.mkv)
